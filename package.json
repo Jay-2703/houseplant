@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://jay-2703.github.io/houseplant/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
