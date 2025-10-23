@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { StoreProvider } from './contexts/StoreContext'; // <-- Change 'context' to 'contexts'
+import LandingPage from './pages/LandingPage';
+import ProductListingPage from "./Pages/ProductListingPage";
+import ShoppingCartPage from "./Pages/ShoppingCartPage";
+import "./assets/styles.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [page, setPage] = React.useState("landing");
+
+  React.useEffect(() => {
+    const handleHashChange = () => setPage(window.location.hash.slice(1) || "landing");
+    window.addEventListener("hashchange", handleHashChange);
+    handleHashChange();
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <StoreProvider>
+      {page === "landing" && <LandingPage />}
+      {page === "products" && <ProductListingPage />}
+      {page === "cart" && <ShoppingCartPage />}
+    </StoreProvider>
+  );
 }
-
-export default App
